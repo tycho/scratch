@@ -5,13 +5,15 @@
 #include <cassert>
 
 #ifdef _WIN32
-#include <windows.h>
+#    include <windows.h>
 #else
-#include <time.h>
+#    include <time.h>
 #endif
 
 #ifdef _MSC_VER
 #    include <intrin.h>  // for _mm_pause() and __yield()
+#else
+#    include <x86intrin.h>
 #endif
 
 #if defined(__ARM_ARCH_7__) || defined(__aarch64__)

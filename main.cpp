@@ -5,7 +5,11 @@
 #include <chrono>
 #include <thread>
 #include <cstdio>
+#include <cmath>
+
+#ifdef _WIN32
 #include <windows.h>
+#endif
 
 #include "timers.h"
 
@@ -39,7 +43,8 @@ double calculatePercentError(double targetValue, double actualValue) {
 typedef void (*sleep_func_t)(std::chrono::nanoseconds _time);
 void test_sleep(sleep_func_t _func, std::chrono::nanoseconds _time)
 {
-	SwitchToThread();
+	// Yield so we can start with a fresh scheduler timeslice.
+	std::this_thread::yield();
 
 	auto start = std::chrono::high_resolution_clock::now();
 	_func(_time);
